@@ -1,4 +1,5 @@
 
+import os
 import abc
 from datetime import datetime
 
@@ -47,4 +48,23 @@ class LogFile(WriteFile):
         dt = datetime.now()
         date_str = dt.strftime('%Y-%m-%d %H:%M')
         self.write_line('{0}   {1}'.format(date_str,this_line))
+
+
+class ConfigDict(dict):
+
+    def __init__(self,filename):
+        self._filename=filename
+        if os.path.isfile(self._filename):
+            with open(self._filename) as fh:
+                for line in fh:
+                    line = line.rstrip()
+		    key,val = line.split("=",1)
+                    dict.__setitem__(self,key,val)
+
+    def __setitem__(self,key,val):
+        dict.__setitem__(self,key,val)
+	with open(self._filename,'w') as fh:
+	    for key,val in self.items():
+	        fh.write("{}={}\n".format(key,val))
         
+ 
