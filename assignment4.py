@@ -1,30 +1,4 @@
 import os
-import pickle
-
-class ConfigPickleDict(dict):
-    config_dir = '/Users/elena/Documents/ProfessionalDevelopment/Python-OOP/'
-
-    def __init__(self,picklename):
-        self._filename = os.path.join(ConfigPickleDict.config_dir,picklename+'.pickle')
-        if not os.path.isfile(self._filename):
-	    with open(self._filename,'w') as fh:
-		pickle.dump({},fh)
-
-	with open(self._filename) as fh:
-	    pkl = pickle.load(fh)
-	    self.update(pkl)
-
-    def __getitem__(self,key):
-	if not key in self:
-	    raise ConfigKeyError(self,key)
-	return dict.__getitem__(self,key)
-
-    def __setitem__(self,key,value):
-	dict.__setitem__(self,key,value)
-	with open(self._filename,'w') as fh:
-	    pickle.dump(self,fh)
-
-###################
 
 class ConfigDict(dict):
 
